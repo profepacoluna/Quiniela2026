@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚽ Rumbo al Oro Mundialista 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  /* ========== VARIABLES & RESET ========== */
+  :root {
+    --gold: #F5C518;
+    --gold-light: #FFD94A;
+    --gold-dark: #C9A000;
+    --black: #0A0A0A;
+    --black2: #111111;
+    --dark: #161616;
+    --dark2: #1E1E1E;
+    --dark3: #252525;
+    --green: #1A6B3C;
+    --green-bright: #22C55E;
+    --white: #FFFFFF;
+    --white80: rgba(255,255,255,0.8);
+    --white20: rgba(255,255,255,0.1);
+    --white10: rgba(255,255,255,0.05);
+    --gold20: rgba(245,197,24,0.2);
+    --gold10: rgba(245,197,24,0.1);
+    --shadow-gold: 0 0 30px rgba(245,197,24,0.3);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ========== BACKGROUND ========== */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(26,107,60,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(245,197,24,0.08) 0%, transparent 60%),
+      repeating-linear-gradient(
+        0deg, transparent, transparent 59px,
+        rgba(255,255,255,0.02) 59px, rgba(255,255,255,0.02) 60px
+      ),
+      repeating-linear-gradient(
+        90deg, transparent, transparent 59px,
+        rgba(255,255,255,0.02) 59px, rgba(255,255,255,0.02) 60px
+      );
+    pointer-events: none; z-index: 0;
+  }
+  body > * { position: relative; z-index: 1; }
+
+  /* ========== SCREENS ========== */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ========== SCREEN 1: INTRO ========== */
+  #screen-intro {
+    align-items: center; justify-content: center;
+    padding: 2rem 1.5rem; text-align: center;
+  }
+  .intro-badge {
+    display: inline-block;
+    background: var(--gold20);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; padding: 6px 20px; border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeDown 0.8s ease both;
+  }
+  .intro-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.9;
+    color: var(--white);
+    letter-spacing: 2px;
+    animation: fadeDown 0.8s 0.1s ease both;
+    text-shadow: 0 0 60px rgba(245,197,24,0.2);
+  }
+  .intro-title span { color: var(--gold); }
+  .intro-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 12rem);
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(245,197,24,0.3);
+    letter-spacing: 4px;
+    animation: fadeDown 0.8s 0.15s ease both;
+  }
+  .intro-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--white80);
+    max-width: 500px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 1.5rem auto 2.5rem;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 40px; border: none; border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(245,197,24,0.4);
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(245,197,24,0.6);
+  }
+  .intro-stats {
+    display: flex; gap: 2rem; margin-top: 3rem;
+    justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .intro-stat {
+    text-align: center;
+  }
+  .intro-stat .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--gold); line-height: 1;
+  }
+  .intro-stat .lbl {
+    font-size: 0.75rem; color: var(--white80);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .ball-anim {
+    font-size: 4rem; display: block; margin-bottom: 0.5rem;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* ========== SCREEN 2: REGISTRO ========== */
+  #screen-registro {
+    align-items: center; justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+  .registro-card {
+    background: var(--dark);
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    max-width: 480px; width: 100%;
+    text-align: center;
+    animation: scaleIn 0.5s ease both;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), var(--shadow-gold);
+  }
+  .registro-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+  .registro-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .registro-sub {
+    color: var(--white80); font-size: 0.95rem;
+    font-weight: 300; margin-bottom: 2rem;
+  }
+  .input-wrap { position: relative; margin-bottom: 1.5rem; }
+  .input-wrap input {
+    width: 100%;
+    background: var(--dark2);
+    border: 2px solid var(--white20);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.1rem; font-weight: 500;
+    color: var(--white);
+    transition: border-color 0.3s;
+    outline: none;
+  }
+  .input-wrap input:focus { border-color: var(--gold); }
+  .input-wrap input::placeholder { color: rgba(255,255,255,0.3); }
+  .motivador {
+    margin-top: 1.5rem;
+    font-size: 0.9rem; color: var(--gold);
+    font-style: italic;
+    opacity: 0; transition: opacity 0.5s;
+  }
+  .motivador.show { opacity: 1; }
+  .error-msg {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    border-radius: 8px; padding: 10px 16px;
+    font-size: 0.85rem; color: #FF6B6B;
+    margin-bottom: 1rem; display: none;
+  }
+  .error-msg.show { display: block; }
+
+  /* ========== SCREEN 3: REGLAS ========== */
+  #screen-reglas {
+    align-items: center; justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+  .reglas-card {
+    background: var(--dark);
+    border: 1px solid var(--gold20);
+    border-radius: 24px;
+    padding: 2.5rem 2.5rem;
+    max-width: 540px; width: 100%;
+    animation: scaleIn 0.5s ease both;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .reglas-header {
+    text-align: center; margin-bottom: 2rem;
+  }
+  .reglas-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--gold); margin-bottom: 0.25rem;
+  }
+  .reglas-sub { color: var(--white80); font-size: 0.9rem; }
+  .reglas-item {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--dark2); border-radius: 12px;
+    padding: 1rem 1.25rem; margin-bottom: 0.75rem;
+    border: 1px solid var(--white10);
+    transition: border-color 0.3s;
+  }
+  .reglas-item:hover { border-color: var(--gold20); }
+  .reglas-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .reglas-text strong {
+    display: block; font-size: 1rem; font-weight: 700;
+    color: var(--white);
+  }
+  .reglas-text span { font-size: 0.85rem; color: var(--white80); }
+  .reglas-prize {
+    background: linear-gradient(135deg, var(--gold20), rgba(245,197,24,0.05));
+    border: 1px solid var(--gold);
+    border-radius: 12px; padding: 1.25rem;
+    text-align: center; margin: 1.25rem 0;
+  }
+  .reglas-prize .prize-label {
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    font-weight: 700;
+  }
+  .reglas-prize .prize-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; color: var(--gold); line-height: 1;
+  }
+  .reglas-prize .prize-desc {
+    font-size: 0.85rem; color: var(--white80);
+  }
+
+  /* ========== MAIN NAV / HEADER ========== */
+  .app-header {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--white10);
+    padding: 0.75rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .app-header .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--gold); letter-spacing: 1px;
+  }
+  .app-header .participante {
+    font-size: 0.8rem; color: var(--white80);
+  }
+  .app-header .participante strong { color: var(--gold); }
+
+  /* ========== PROGRESS BAR ========== */
+  .progress-wrap {
+    background: var(--dark); padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--white10);
+    position: sticky; top: 53px; z-index: 99;
+  }
+  .progress-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .progress-label {
+    font-size: 0.8rem; color: var(--white80);
+    font-weight: 500;
+  }
+  .progress-label span { color: var(--gold); font-weight: 700; }
+  .progress-pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; color: var(--gold);
+  }
+  .progress-bar-bg {
+    height: 6px; background: var(--dark3); border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--gold));
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    width: 0%;
+  }
+
+  /* ========== SCREEN 4: QUINIELA ========== */
+  #screen-quiniela { display: none; flex-direction: column; }
+  #screen-quiniela.active { display: flex; }
+  .quiniela-body {
+    padding: 1.5rem;
+    max-width: 900px; width: 100%; margin: 0 auto;
+    flex: 1;
+  }
+
+  /* ========== GRUPO CARD ========== */
+  .grupo-card {
+    background: var(--dark);
+    border: 1px solid var(--white10);
+    border-radius: var(--radius);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .grupo-card.complete {
+    border-color: rgba(34,197,94,0.4);
+    box-shadow: 0 0 20px rgba(34,197,94,0.1);
+  }
+  .grupo-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--dark2);
+    border-bottom: 1px solid var(--white10);
+    cursor: pointer;
+    user-select: none;
+  }
+  .grupo-header-left {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .grupo-badge {
+    background: var(--gold20);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 1px;
+    padding: 2px 12px; border-radius: 6px;
+  }
+  .grupo-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .grupo-status {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.75rem;
+  }
+  .grupo-status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--white20);
+    transition: background 0.3s;
+  }
+  .grupo-status.done .dot { background: var(--green-bright); }
+  .grupo-status.done .lbl { color: var(--green-bright); }
+  .grupo-status .lbl { color: var(--white80); }
+  .grupo-chevron {
+    font-size: 0.75rem; color: var(--white80);
+    transition: transform 0.3s;
+  }
+  .grupo-card.open .grupo-chevron { transform: rotate(180deg); }
+
+  .grupo-body { display: none; padding: 1.25rem; }
+  .grupo-card.open .grupo-body { display: block; }
+
+  .seleccion-labels {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.75rem; margin-bottom: 0.75rem;
+  }
+  .sel-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--white80);
+    padding: 6px 12px;
+    background: var(--dark3);
+    border-radius: 6px;
+  }
+  .sel-label.primero { color: var(--gold); }
+  .sel-label.segundo { color: #C0C0C0; }
+
+  .equipos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  @media (min-width: 500px) {
+    .equipos-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ========== EQUIPO CARD ========== */
+  .equipo-card {
+    position: relative;
+    background: var(--dark2);
+    border: 2px solid var(--white10);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+    user-select: none;
+    overflow: hidden;
+  }
+  .equipo-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.02));
+    pointer-events: none;
+  }
+  .equipo-card:hover {
+    border-color: var(--gold20);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .equipo-card.primero {
+    border-color: var(--gold);
+    background: rgba(245,197,24,0.12);
+    box-shadow: 0 0 15px rgba(245,197,24,0.25);
+  }
+  .equipo-card.segundo {
+    border-color: #C0C0C0;
+    background: rgba(192,192,192,0.1);
+    box-shadow: 0 0 15px rgba(192,192,192,0.15);
+  }
+  .equipo-flag { font-size: 2rem; display: block; margin-bottom: 0.25rem; line-height: 1; }
+  .equipo-name {
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--white80); line-height: 1.2;
+  }
+  .equipo-card.primero .equipo-name { color: var(--gold); }
+  .equipo-card.segundo .equipo-name { color: #D4D4D4; }
+  .equipo-rank {
+    position: absolute; top: 4px; right: 6px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+  }
+  .equipo-card.primero .equipo-rank { color: var(--gold); }
+  .equipo-card.segundo .equipo-rank { color: #C0C0C0; }
+
+  /* ========== SELECCION PREVIEW ========== */
+  .seleccion-preview {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.75rem; margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--white10);
+  }
+  .preview-slot {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: var(--dark3); border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    border: 1px dashed var(--white20);
+    transition: all 0.3s;
+    min-height: 44px;
+  }
+  .preview-slot.filled-primero { border-color: var(--gold); border-style: solid; }
+  .preview-slot.filled-segundo { border-color: #C0C0C0; border-style: solid; }
+  .preview-slot .slot-medal { font-size: 1.1rem; }
+  .preview-slot .slot-info { flex: 1; }
+  .preview-slot .slot-label {
+    font-size: 0.65rem; color: var(--white80);
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+  }
+  .preview-slot .slot-name {
+    font-size: 0.85rem; font-weight: 700; color: var(--white);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .preview-slot .slot-empty {
+    font-size: 0.8rem; color: rgba(255,255,255,0.25); font-style: italic;
+  }
+
+  /* ========== ALERT TOAST ========== */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--dark2); border: 1px solid var(--gold);
+    border-radius: 12px; padding: 12px 24px;
+    font-size: 0.9rem; font-weight: 600; color: var(--gold);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 9999; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ========== MOTIVATIONAL BANNER ========== */
+  .motivational-banner {
+    background: linear-gradient(135deg, var(--gold20), rgba(26,107,60,0.2));
+    border: 1px solid var(--gold20);
+    border-radius: 12px; padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    animation: fadeDown 0.5s ease both;
+  }
+  .motivational-banner .mb-icon { font-size: 2rem; }
+  .motivational-banner .mb-text { font-size: 0.95rem; color: var(--white80); }
+  .motivational-banner .mb-text strong { color: var(--gold); }
+
+  /* ========== SCREEN 5: RESUMEN ========== */
+  #screen-resumen { display: none; flex-direction: column; }
+  #screen-resumen.active { display: flex; }
+  .resumen-body {
+    padding: 1.5rem;
+    max-width: 900px; width: 100%; margin: 0 auto; flex: 1;
+  }
+
+  .resumen-hero {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .resumen-hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 10%; right: 10%;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .resumen-trophy { font-size: 4rem; display: block; animation: float 3s ease-in-out infinite; }
+  .resumen-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--gold); margin: 0.5rem 0 0.25rem;
+    line-height: 1;
+  }
+  .resumen-participant {
+    font-size: 1.1rem; color: var(--white80);
+    font-weight: 300;
+  }
+  .resumen-participant strong { color: var(--white); font-weight: 700; }
+
+  .resumen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem; margin-bottom: 2rem;
+  }
+  .resumen-grupo {
+    background: var(--dark);
+    border: 1px solid var(--white10);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .resumen-grupo-header {
+    background: var(--dark2);
+    padding: 0.6rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid var(--white10);
+  }
+  .resumen-grupo-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem; color: var(--gold);
+    background: var(--gold20); border: 1px solid var(--gold);
+    padding: 1px 8px; border-radius: 4px;
+  }
+  .resumen-grupo-name {
+    font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--white80);
+  }
+  .resumen-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--white10);
+  }
+  .resumen-row:last-child { border-bottom: none; }
+  .resumen-row .medal { font-size: 1.1rem; }
+  .resumen-row .flag { font-size: 1.5rem; }
+  .resumen-row .equipo-info { flex: 1; }
+  .resumen-row .pos-label {
+    font-size: 0.65rem; color: var(--white80);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .resumen-row .eq-name {
+    font-size: 0.9rem; font-weight: 700;
+  }
+  .resumen-row.primero .eq-name { color: var(--gold); }
+  .resumen-row.segundo .eq-name { color: #C0C0C0; }
+
+  /* ========== ACTIONS ========== */
+  .actions-bar {
+    background: var(--dark);
+    border-top: 1px solid var(--white10);
+    padding: 1.5rem;
+    display: flex; gap: 1rem; justify-content: center;
+    flex-wrap: wrap;
+    position: sticky; bottom: 0; z-index: 98;
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    border: 2px solid var(--white20);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 28px; border-radius: 50px;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-pdf {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 32px; border: none; border-radius: 50px;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 6px 25px rgba(245,197,24,0.4);
+  }
+  .btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 35px rgba(245,197,24,0.6);
+  }
+  .btn-pdf:disabled {
+    opacity: 0.5; cursor: not-allowed; transform: none;
+  }
+
+  /* ========== COMPLETE BANNER ========== */
+  .complete-banner {
+    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(245,197,24,0.1));
+    border: 1px solid rgba(34,197,94,0.4);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .complete-banner .cb-icon { font-size: 2rem; }
+  .complete-banner .cb-text {
+    font-size: 1rem; font-weight: 600; color: var(--white);
+  }
+  .complete-banner .cb-sub { font-size: 0.85rem; color: var(--white80); }
+
+  /* ========== PDF TEMPLATE (hidden) ========== */
+  #pdf-template {
+    position: fixed; left: -9999px; top: 0;
+    width: 794px;
+    background: white; color: #111;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+  }
+  #pdf-template .pdf-header {
+    background: #111; color: #F5C518;
+    padding: 20px 30px; border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #pdf-template .pdf-title-main {
+    font-size: 28px; font-weight: 900;
+    letter-spacing: 2px; line-height: 1;
+  }
+  #pdf-template .pdf-title-sub {
+    font-size: 11px; color: rgba(245,197,24,0.7);
+    letter-spacing: 3px; margin-top: 4px;
+  }
+  #pdf-template .pdf-badge {
+    background: #F5C518; color: #111;
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 1px;
+  }
+  #pdf-template .pdf-info-bar {
+    display: flex; justify-content: space-between;
+    background: #f5f5f5; border-radius: 6px;
+    padding: 12px 16px; margin-bottom: 20px;
+    font-size: 11px; color: #555;
+  }
+  #pdf-template .pdf-info-bar strong { color: #111; font-size: 13px; }
+  #pdf-template .pdf-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  #pdf-template .pdf-grupo {
+    border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden;
+  }
+  #pdf-template .pdf-grupo-header {
+    background: #111; color: #F5C518;
+    padding: 6px 10px; font-size: 10px;
+    font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  #pdf-template .pdf-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  #pdf-template .pdf-row:last-child { border-bottom: none; }
+  #pdf-template .pdf-flag { font-size: 14px; }
+  #pdf-template .pdf-pos { font-size: 9px; color: #888; text-transform: uppercase; }
+  #pdf-template .pdf-name { font-size: 11px; font-weight: 700; }
+  #pdf-template .pdf-row.primero .pdf-name { color: #9A7A00; }
+  #pdf-template .pdf-row.segundo .pdf-name { color: #555; }
+  #pdf-template .pdf-footer {
+    margin-top: 20px; text-align: center;
+    font-size: 10px; color: #888;
+    border-top: 1px solid #e0e0e0; padding-top: 12px;
+  }
+  #pdf-template .pdf-rules {
+    display: flex; gap: 10px; justify-content: center;
+    margin: 12px 0;
+  }
+  #pdf-template .pdf-rule-chip {
+    background: #f5f5f5; border: 1px solid #ddd;
+    border-radius: 4px; padding: 4px 10px;
+    font-size: 10px; color: #333;
+  }
+
+  /* ========== FOOTER ========== */
+  .app-footer {
+    background: var(--dark);
+    border-top: 1px solid var(--white10);
+    padding: 1.5rem 1.5rem;
+    text-align: center;
+  }
+  .app-footer .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; color: var(--gold); letter-spacing: 2px;
+    margin-bottom: 0.25rem;
+  }
+  .app-footer .footer-sub {
+    font-size: 0.8rem; color: var(--white80);
+    font-style: italic;
+  }
+  .app-footer .footer-credit {
+    font-size: 0.72rem; color: rgba(255,255,255,0.4);
+    margin-top: 0.4rem; letter-spacing: 0.5px;
+  }
+  .app-footer .footer-credit strong { color: var(--gold); opacity: 0.7; }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .pop-in { animation: popIn 0.3s ease both; }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 480px) {
+    .actions-bar { flex-direction: column; }
+    .btn-pdf, .btn-secondary { width: 100%; justify-content: center; }
+    .resumen-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===========================
+     SCREEN 1: INTRO
+=========================== -->
+<div id="screen-intro" class="screen active">
+  <span class="ball-anim" style="margin-top: 3rem;">⚽</span>
+  <div class="intro-badge">FIFA World Cup · Edición Especial</div>
+  <h1 class="intro-title">Rumbo al <span>Oro</span><br>Mundialista</h1>
+  <div class="intro-year">2026</div>
+  <p class="intro-sub">Demuestra que sabes de fútbol y conviértete en el campeón de la quiniela del Mundial.</p>
+  <button class="btn-primary" onclick="goToRegistro()">
+    <span>🏆</span> Iniciar Quiniela
+  </button>
+  <div class="intro-stats">
+    <div class="intro-stat">
+      <div class="num">12</div>
+      <div class="lbl">Grupos</div>
+    </div>
+    <div class="intro-stat">
+      <div class="num">48</div>
+      <div class="lbl">Selecciones</div>
+    </div>
+    <div class="intro-stat">
+      <div class="num">24</div>
+      <div class="lbl">Pronósticos</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     SCREEN 2: REGISTRO
+=========================== -->
+<div id="screen-registro" class="screen">
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; padding: 2rem 1.5rem;">
+    <div class="registro-card">
+      <div class="registro-icon">👤</div>
+      <div class="registro-title">¿Quién eres?</div>
+      <p class="registro-sub">Ingresa tu nombre para registrar tu quiniela oficialmente.</p>
+      <div class="error-msg" id="nombre-error">⚠️ Por favor ingresa tu nombre para continuar.</div>
+      <div class="input-wrap">
+        <input type="text" id="nombre-input" placeholder="Tu nombre completo..."
+               maxlength="50"
+               oninput="onNombreInput()"
+               onkeydown="if(event.key==='Enter') continueToReglas()">
+      </div>
+      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="continueToReglas()">
+        <span>⚽</span> Continuar
+      </button>
+      <div class="motivador" id="motivador-msg">
+        "Tu camino al campeonato comienza aquí ⚽"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     SCREEN 3: REGLAS
+=========================== -->
+<div id="screen-reglas" class="screen">
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; padding: 2rem 1.5rem;">
+    <div class="reglas-card">
+      <div class="reglas-header">
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">📜</div>
+        <div class="reglas-title">Reglas de la Quiniela</div>
+        <div class="reglas-sub">Sigue las reglas y gana el campeonato</div>
+      </div>
+
+      <div class="reglas-prize">
+        <div class="prize-label">Entrada por participante</div>
+        <div class="prize-amount">$100</div>
+        <div class="prize-desc">Pesos mexicanos · Acumulable</div>
+      </div>
+
+      <div class="reglas-item">
+        <div class="reglas-icon">🥇</div>
+        <div class="reglas-text">
+          <strong>Primer lugar correcto</strong>
+          <span>Acumulas 2 puntos por cada acierto</span>
+        </div>
+      </div>
+      <div class="reglas-item">
+        <div class="reglas-icon">🥈</div>
+        <div class="reglas-text">
+          <strong>Segundo lugar correcto</strong>
+          <span>Acumulas 1 punto por cada acierto</span>
+        </div>
+      </div>
+      <div class="reglas-item">
+        <div class="reglas-icon">🏆</div>
+        <div class="reglas-text">
+          <strong>¿Quién gana?</strong>
+          <span>Gana quien acumule más puntos al final</span>
+        </div>
+      </div>
+      <div class="reglas-item">
+        <div class="reglas-icon">⚽</div>
+        <div class="reglas-text">
+          <strong>Puntaje máximo posible</strong>
+          <span>24 grupos × 2pts = 48 puntos máximo</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%; justify-content:center; margin-top:1.5rem;" onclick="goToQuiniela()">
+        <span>🚀</span> ¡Comenzar Quiniela!
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     SCREEN 4: QUINIELA
+=========================== -->
+<div id="screen-quiniela" class="screen">
+  <div class="app-header">
+    <div class="logo">⚽ Rumbo al Oro 2026</div>
+    <div class="participante">Participante: <strong id="header-nombre">—</strong></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <div class="progress-label">Grupos completados: <span id="progress-count">0</span> de 12</div>
+      <div class="progress-pct" id="progress-pct">0%</div>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="quiniela-body">
+    <div class="motivational-banner" id="motivational-banner">
+      <div class="mb-icon">🏟️</div>
+      <div class="mb-text"><strong>¡El torneo te espera!</strong> Selecciona el 1° y 2° lugar de cada grupo para completar tu quiniela mundialista.</div>
+    </div>
+
+    <div id="grupos-container"></div>
+
+    <div class="actions-bar" style="position:relative; margin-top:1rem; border-radius: 16px;">
+      <button class="btn-pdf" onclick="goToResumen()">
+        📋 Ver Mi Pronóstico
+      </button>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div class="footer-logo">Rumbo al Oro Mundialista 2026 ©</div>
+    <div class="footer-sub">Que gane el mejor estratega del Mundial ⚽🏆</div>
+    <div class="footer-credit">Creado por: <strong>Francisco De Jesús Luna Benítez</strong></div>
+  </footer>
+</div>
+
+<!-- ===========================
+     SCREEN 5: RESUMEN
+=========================== -->
+<div id="screen-resumen" class="screen">
+  <div class="app-header">
+    <div class="logo">⚽ Rumbo al Oro 2026</div>
+    <div class="participante">Participante: <strong id="resumen-nombre-header">—</strong></div>
+  </div>
+
+  <div class="resumen-body">
+    <div class="resumen-hero">
+      <span class="resumen-trophy">🏆</span>
+      <div class="resumen-title">Mi Pronóstico Mundialista</div>
+      <div class="resumen-participant">Participante: <strong id="resumen-nombre">—</strong></div>
+    </div>
+
+    <div id="resumen-completo-banner" class="complete-banner" style="display:none;">
+      <div class="cb-icon">✅</div>
+      <div>
+        <div class="cb-text">¡Quiniela completa!</div>
+        <div class="cb-sub">Todos los grupos han sido seleccionados. ¡Descarga tu quiniela!</div>
+      </div>
+    </div>
+
+    <div id="resumen-incompleto-banner" class="complete-banner" style="display:none; border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.08);">
+      <div class="cb-icon">⚠️</div>
+      <div>
+        <div class="cb-text" style="color:#FF6B6B;">Quiniela incompleta</div>
+        <div class="cb-sub" id="incompleto-msg">Aún faltan grupos por completar.</div>
+      </div>
+    </div>
+
+    <div id="resumen-grid" class="resumen-grid"></div>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn-secondary" onclick="goBackToQuiniela()">
+      ← Editar Quiniela
+    </button>
+    <button class="btn-pdf" id="btn-pdf" onclick="descargarPDF()">
+      📄 Descargar PDF
+    </button>
+  </div>
+
+  <footer class="app-footer">
+    <div class="footer-logo">Rumbo al Oro Mundialista 2026 ©</div>
+    <div class="footer-sub">Que gane el mejor estratega del Mundial ⚽🏆</div>
+    <div class="footer-credit">Creado por: <strong>Francisco De Jesús Luna Benítez</strong></div>
+  </footer>
+</div>
+
+<!-- PDF TEMPLATE -->
+<div id="pdf-template"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===========================
+// DATA: GRUPOS Y EQUIPOS
+// ===========================
+const GRUPOS_DATA = [
+  { grupo: 'A', equipos: [
+    { nombre: 'México', bandera: '🇲🇽' },
+    { nombre: 'Sudáfrica', bandera: '🇿🇦' },
+    { nombre: 'Corea del Sur', bandera: '🇰🇷' },
+    { nombre: 'Chequia', bandera: '🇨🇿' }
+  ]},
+  { grupo: 'B', equipos: [
+    { nombre: 'Canadá', bandera: '🇨🇦' },
+    { nombre: 'Bosnia y Herzegovina', bandera: '🇧🇦' },
+    { nombre: 'Catar', bandera: '🇶🇦' },
+    { nombre: 'Suiza', bandera: '🇨🇭' }
+  ]},
+  { grupo: 'C', equipos: [
+    { nombre: 'Brasil', bandera: '🇧🇷' },
+    { nombre: 'Marruecos', bandera: '🇲🇦' },
+    { nombre: 'Haití', bandera: '🇭🇹' },
+    { nombre: 'Escocia', bandera: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' }
+  ]},
+  { grupo: 'D', equipos: [
+    { nombre: 'Estados Unidos', bandera: '🇺🇸' },
+    { nombre: 'Paraguay', bandera: '🇵🇾' },
+    { nombre: 'Australia', bandera: '🇦🇺' },
+    { nombre: 'Turquía', bandera: '🇹🇷' }
+  ]},
+  { grupo: 'E', equipos: [
+    { nombre: 'Alemania', bandera: '🇩🇪' },
+    { nombre: 'Curazao', bandera: '🇨🇼' },
+    { nombre: 'Costa de Marfil', bandera: '🇨🇮' },
+    { nombre: 'Ecuador', bandera: '🇪🇨' }
+  ]},
+  { grupo: 'F', equipos: [
+    { nombre: 'Países Bajos', bandera: '🇳🇱' },
+    { nombre: 'Japón', bandera: '🇯🇵' },
+    { nombre: 'Suecia', bandera: '🇸🇪' },
+    { nombre: 'Túnez', bandera: '🇹🇳' }
+  ]},
+  { grupo: 'G', equipos: [
+    { nombre: 'Bélgica', bandera: '🇧🇪' },
+    { nombre: 'Egipto', bandera: '🇪🇬' },
+    { nombre: 'Irán', bandera: '🇮🇷' },
+    { nombre: 'Nueva Zelanda', bandera: '🇳🇿' }
+  ]},
+  { grupo: 'H', equipos: [
+    { nombre: 'España', bandera: '🇪🇸' },
+    { nombre: 'Cabo Verde', bandera: '🇨🇻' },
+    { nombre: 'Arabia Saudita', bandera: '🇸🇦' },
+    { nombre: 'Uruguay', bandera: '🇺🇾' }
+  ]},
+  { grupo: 'I', equipos: [
+    { nombre: 'Francia', bandera: '🇫🇷' },
+    { nombre: 'Senegal', bandera: '🇸🇳' },
+    { nombre: 'Irak', bandera: '🇮🇶' },
+    { nombre: 'Noruega', bandera: '🇳🇴' }
+  ]},
+  { grupo: 'J', equipos: [
+    { nombre: 'Argentina', bandera: '🇦🇷' },
+    { nombre: 'Argelia', bandera: '🇩🇿' },
+    { nombre: 'Austria', bandera: '🇦🇹' },
+    { nombre: 'Jordania', bandera: '🇯🇴' }
+  ]},
+  { grupo: 'K', equipos: [
+    { nombre: 'Portugal', bandera: '🇵🇹' },
+    { nombre: 'Rep. Dem. del Congo', bandera: '🇨🇩' },
+    { nombre: 'Uzbekistán', bandera: '🇺🇿' },
+    { nombre: 'Colombia', bandera: '🇨🇴' }
+  ]},
+  { grupo: 'L', equipos: [
+    { nombre: 'Inglaterra', bandera: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+    { nombre: 'Croacia', bandera: '🇭🇷' },
+    { nombre: 'Ghana', bandera: '🇬🇭' },
+    { nombre: 'Panamá', bandera: '🇵🇦' }
+  ]}
+];
+
+// ===========================
+// STATE
+// ===========================
+let participante = '';
+let selecciones = {}; // { A: { primero: 'México', segundo: 'Corea del Sur' }, ... }
+
+const MENSAJES_MOTIVADORES = [
+  '¡Excelente elección! 🔥',
+  'Eres un estratega nato ⚽',
+  'El campeonato te espera 🏆',
+  '¡Gran pronóstico! ¡Sigue así!',
+  '¡Ya casi completas tu quiniela! ⚽',
+  '¡Imparable! Sigue eligiendo 💪',
+  '¡Ese es el espíritu mundialista! 🌍',
+];
+
+// ===========================
+// NAVIGATION
+// ===========================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const s = document.getElementById(id);
+  s.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goToRegistro() { showScreen('screen-registro'); }
+
+function onNombreInput() {
+  const val = document.getElementById('nombre-input').value.trim();
+  const mot = document.getElementById('motivador-msg');
+  document.getElementById('nombre-error').classList.remove('show');
+  if (val.length > 0) { mot.classList.add('show'); }
+  else { mot.classList.remove('show'); }
+}
+
+function continueToReglas() {
+  const val = document.getElementById('nombre-input').value.trim();
+  if (!val) {
+    document.getElementById('nombre-error').classList.add('show');
+    document.getElementById('nombre-input').focus();
+    return;
+  }
+  participante = val;
+  showScreen('screen-reglas');
+}
+
+function goToQuiniela() {
+  document.getElementById('header-nombre').textContent = participante;
+  buildGrupos();
+  showScreen('screen-quiniela');
+}
+
+function goBackToQuiniela() {
+  showScreen('screen-quiniela');
+  updateProgress();
+}
+
+function goToResumen() {
+  buildResumen();
+  showScreen('screen-resumen');
+}
+
+// ===========================
+// BUILD GRUPOS
+// ===========================
+function buildGrupos() {
+  const container = document.getElementById('grupos-container');
+  if (container.children.length > 0) return; // ya construido
+
+  container.innerHTML = '';
+  GRUPOS_DATA.forEach((gdata, idx) => {
+    const card = document.createElement('div');
+    card.className = 'grupo-card' + (idx === 0 ? ' open' : '');
+    card.id = `grupo-card-${gdata.grupo}`;
+
+    const sel = selecciones[gdata.grupo] || { primero: null, segundo: null };
+
+    card.innerHTML = `
+      <div class="grupo-header" onclick="toggleGrupo('${gdata.grupo}')">
+        <div class="grupo-header-left">
+          <span class="grupo-badge">Grupo ${gdata.grupo}</span>
+          <span class="grupo-name">${getGrupoNombre(gdata.grupo)}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div class="grupo-status" id="status-${gdata.grupo}">
+            <div class="dot"></div>
+            <span class="lbl">Pendiente</span>
+          </div>
+          <span class="grupo-chevron">▼</span>
+        </div>
+      </div>
+      <div class="grupo-body">
+        <div class="seleccion-labels">
+          <div class="sel-label primero">🥇 1er Lugar</div>
+          <div class="sel-label segundo">🥈 2do Lugar</div>
+        </div>
+        <div class="equipos-grid" id="equipos-${gdata.grupo}">
+          ${gdata.equipos.map(eq => buildEquipoCard(eq, gdata.grupo)).join('')}
+        </div>
+        <div class="seleccion-preview" id="preview-${gdata.grupo}">
+          <div class="preview-slot" id="slot-primero-${gdata.grupo}">
+            <span class="slot-medal">🥇</span>
+            <div class="slot-info">
+              <div class="slot-label">1er Lugar</div>
+              <div class="slot-empty">Sin selección</div>
+            </div>
+          </div>
+          <div class="preview-slot" id="slot-segundo-${gdata.grupo}">
+            <span class="slot-medal">🥈</span>
+            <div class="slot-info">
+              <div class="slot-label">2do Lugar</div>
+              <div class="slot-empty">Sin selección</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  updateProgress();
+}
+
+function getGrupoNombre(g) {
+  const names = {
+    A:'México & Sudáfrica', B:'Canadá & Suiza', C:'Brasil & Marruecos',
+    D:'EE.UU. & Paraguay', E:'Alemania & Ecuador', F:'Países Bajos & Japón',
+    G:'Bélgica & Egipto', H:'España & Uruguay', I:'Francia & Senegal',
+    J:'Argentina & Argelia', K:'Portugal & Colombia', L:'Inglaterra & Croacia'
+  };
+  return names[g] || '';
+}
+
+function buildEquipoCard(eq, grupo) {
+  const sel = selecciones[grupo] || {};
+  let cls = '';
+  let rankTxt = '';
+  if (sel.primero === eq.nombre) { cls = ' primero'; rankTxt = '<span class="equipo-rank">1°</span>'; }
+  else if (sel.segundo === eq.nombre) { cls = ' segundo'; rankTxt = '<span class="equipo-rank">2°</span>'; }
+  return `<div class="equipo-card${cls}" id="eq-${grupo}-${slugify(eq.nombre)}"
+    onclick="selectEquipo('${grupo}','${eq.nombre.replace(/'/g,"\\'")}','${eq.bandera}')">
+    ${rankTxt}
+    <span class="equipo-flag">${eq.bandera}</span>
+    <div class="equipo-name">${eq.nombre}</div>
+  </div>`;
+}
+
+function slugify(s) {
+  return s.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+// ===========================
+// SELECCION LOGIC
+// ===========================
+function selectEquipo(grupo, nombre, bandera) {
+  if (!selecciones[grupo]) selecciones[grupo] = { primero: null, segundo: null };
+  const sel = selecciones[grupo];
+
+  if (sel.primero === nombre) {
+    // Deselect primero
+    sel.primero = null;
+  } else if (sel.segundo === nombre) {
+    // Deselect segundo
+    sel.segundo = null;
+  } else if (!sel.primero) {
+    sel.primero = nombre;
+    showToast(`🥇 ${bandera} ${nombre} como 1er lugar!`);
+  } else if (!sel.segundo) {
+    if (sel.primero === nombre) {
+      showToast('⚠️ Ya elegiste este equipo como 1er lugar', true);
+      return;
+    }
+    sel.segundo = nombre;
+    showToast(`🥈 ${bandera} ${nombre} como 2do lugar!`);
+
+    // Auto-open next group
+    setTimeout(() => autoOpenNext(grupo), 600);
+  } else {
+    // Both slots full — swap segundo
+    if (sel.primero === nombre) {
+      showToast('⚠️ Este equipo ya es tu 1er lugar', true);
+      return;
+    }
+    sel.segundo = nombre;
+    showToast(`🥈 ${bandera} ${nombre} como nuevo 2do lugar`);
+  }
+
+  refreshGrupo(grupo);
+  updateProgress();
+
+  // Motivational message on complete
+  if (sel.primero && sel.segundo) {
+    const msgs = MENSAJES_MOTIVADORES;
+    const msg = msgs[Math.floor(Math.random() * msgs.length)];
+    updateMotivationalBanner(msg);
+  }
+}
+
+function refreshGrupo(grupo) {
+  const gdata = GRUPOS_DATA.find(g => g.grupo === grupo);
+  const sel = selecciones[grupo] || {};
+
+  // Refresh equipo cards
+  const grid = document.getElementById(`equipos-${grupo}`);
+  if (!grid) return;
+  grid.innerHTML = gdata.equipos.map(eq => buildEquipoCard(eq, grupo)).join('');
+
+  // Refresh preview
+  const slotP = document.getElementById(`slot-primero-${grupo}`);
+  const slotS = document.getElementById(`slot-segundo-${grupo}`);
+
+  if (sel.primero) {
+    const eq = gdata.equipos.find(e => e.nombre === sel.primero);
+    slotP.className = 'preview-slot filled-primero pop-in';
+    slotP.innerHTML = `<span class="slot-medal">🥇</span>
+      <div class="slot-info">
+        <div class="slot-label">1er Lugar</div>
+        <div class="slot-name">${eq ? eq.bandera : ''} ${sel.primero}</div>
+      </div>`;
+  } else {
+    slotP.className = 'preview-slot';
+    slotP.innerHTML = `<span class="slot-medal">🥇</span>
+      <div class="slot-info"><div class="slot-label">1er Lugar</div><div class="slot-empty">Sin selección</div></div>`;
+  }
+
+  if (sel.segundo) {
+    const eq = gdata.equipos.find(e => e.nombre === sel.segundo);
+    slotS.className = 'preview-slot filled-segundo pop-in';
+    slotS.innerHTML = `<span class="slot-medal">🥈</span>
+      <div class="slot-info">
+        <div class="slot-label">2do Lugar</div>
+        <div class="slot-name">${eq ? eq.bandera : ''} ${sel.segundo}</div>
+      </div>`;
+  } else {
+    slotS.className = 'preview-slot';
+    slotS.innerHTML = `<span class="slot-medal">🥈</span>
+      <div class="slot-info"><div class="slot-label">2do Lugar</div><div class="slot-empty">Sin selección</div></div>`;
+  }
+
+  // Status badge
+  const statusEl = document.getElementById(`status-${grupo}`);
+  const card = document.getElementById(`grupo-card-${grupo}`);
+  if (sel.primero && sel.segundo) {
+    statusEl.className = 'grupo-status done';
+    statusEl.innerHTML = `<div class="dot"></div><span class="lbl">✓ Completo</span>`;
+    card.classList.add('complete');
+  } else {
+    statusEl.className = 'grupo-status';
+    statusEl.innerHTML = `<div class="dot"></div><span class="lbl">Pendiente</span>`;
+    card.classList.remove('complete');
+  }
+}
+
+function autoOpenNext(currentGrupo) {
+  const letters = GRUPOS_DATA.map(g => g.grupo);
+  const idx = letters.indexOf(currentGrupo);
+  if (idx < letters.length - 1) {
+    const nextGrupo = letters[idx + 1];
+    // Close current
+    const currentCard = document.getElementById(`grupo-card-${currentGrupo}`);
+    currentCard.classList.remove('open');
+    // Open next
+    const nextCard = document.getElementById(`grupo-card-${nextGrupo}`);
+    nextCard.classList.add('open');
+    // Scroll to next
+    setTimeout(() => {
+      nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+}
+
+function toggleGrupo(grupo) {
+  const card = document.getElementById(`grupo-card-${grupo}`);
+  card.classList.toggle('open');
+}
+
+// ===========================
+// PROGRESS
+// ===========================
+function updateProgress() {
+  let completed = 0;
+  GRUPOS_DATA.forEach(g => {
+    const sel = selecciones[g.grupo];
+    if (sel && sel.primero && sel.segundo) completed++;
+  });
+  const total = GRUPOS_DATA.length;
+  const pct = Math.round((completed / total) * 100);
+
+  document.getElementById('progress-count').textContent = completed;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  if (completed === total) {
+    updateMotivationalBanner('🎉 ¡Tu quiniela está completa! ¡Descarga tu pronóstico!');
+  }
+}
+
+function updateMotivationalBanner(msg) {
+  const banner = document.getElementById('motivational-banner');
+  banner.querySelector('.mb-text').innerHTML = msg;
+}
+
+// ===========================
+// TOAST
+// ===========================
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = isError ? '#FF6B6B' : 'var(--gold)';
+  t.style.color = isError ? '#FF6B6B' : 'var(--gold)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===========================
+// RESUMEN
+// ===========================
+function buildResumen() {
+  document.getElementById('resumen-nombre').textContent = participante;
+  document.getElementById('resumen-nombre-header').textContent = participante;
+
+  // Check completeness
+  const incompletos = GRUPOS_DATA.filter(g => {
+    const sel = selecciones[g.grupo];
+    return !sel || !sel.primero || !sel.segundo;
+  });
+
+  const completoBanner = document.getElementById('resumen-completo-banner');
+  const incompletoBanner = document.getElementById('resumen-incompleto-banner');
+  const btnPdf = document.getElementById('btn-pdf');
+
+  if (incompletos.length === 0) {
+    completoBanner.style.display = 'flex';
+    incompletoBanner.style.display = 'none';
+    btnPdf.disabled = false;
+  } else {
+    completoBanner.style.display = 'none';
+    incompletoBanner.style.display = 'flex';
+    const nombres = incompletos.map(g => `Grupo ${g.grupo}`).join(', ');
+    document.getElementById('incompleto-msg').textContent = `Faltan: ${nombres}`;
+    btnPdf.disabled = true;
+  }
+
+  const grid = document.getElementById('resumen-grid');
+  grid.innerHTML = '';
+
+  GRUPOS_DATA.forEach(gdata => {
+    const sel = selecciones[gdata.grupo] || {};
+    const eq1 = gdata.equipos.find(e => e.nombre === sel.primero);
+    const eq2 = gdata.equipos.find(e => e.nombre === sel.segundo);
+
+    const el = document.createElement('div');
+    el.className = 'resumen-grupo';
+    el.innerHTML = `
+      <div class="resumen-grupo-header">
+        <span class="resumen-grupo-badge">Grupo ${gdata.grupo}</span>
+        <span class="resumen-grupo-name">${getGrupoNombre(gdata.grupo)}</span>
+      </div>
+      <div class="resumen-row primero">
+        <span class="medal">🥇</span>
+        <span class="flag">${eq1 ? eq1.bandera : '❓'}</span>
+        <div class="equipo-info">
+          <div class="pos-label">1er Lugar</div>
+          <div class="eq-name">${sel.primero || '— Sin selección —'}</div>
+        </div>
+      </div>
+      <div class="resumen-row segundo">
+        <span class="medal">🥈</span>
+        <span class="flag">${eq2 ? eq2.bandera : '❓'}</span>
+        <div class="equipo-info">
+          <div class="pos-label">2do Lugar</div>
+          <div class="eq-name">${sel.segundo || '— Sin selección —'}</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+}
+
+// ===========================
+// PDF GENERATION
+// ===========================
+async function descargarPDF() {
+  // Check completeness
+  const incompletos = GRUPOS_DATA.filter(g => {
+    const sel = selecciones[g.grupo];
+    return !sel || !sel.primero || !sel.segundo;
+  });
+  if (incompletos.length > 0) {
+    const nombres = incompletos.map(g => `Grupo ${g.grupo}`).join(', ');
+    showToast(`⚠️ Faltan grupos: ${nombres}`, true);
+    return;
+  }
+
+  const btn = document.getElementById('btn-pdf');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generando PDF...';
+
+  const now = new Date();
+  const fecha = now.toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
+  const hora = now.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: true });
+
+  // Build PDF template
+  const tpl = document.getElementById('pdf-template');
+  tpl.innerHTML = `
+    <div class="pdf-header">
+      <div>
+        <div class="pdf-title-main">⚽ RUMBO AL ORO MUNDIALISTA</div>
+        <div class="pdf-title-sub">QUINIELA OFICIAL · FIFA WORLD CUP 2026</div>
+      </div>
+      <div class="pdf-badge">2026</div>
+    </div>
+    <div class="pdf-info-bar">
+      <div>Participante: <strong>${participante}</strong></div>
+      <div>Fecha: <strong>${fecha}</strong></div>
+      <div>Total grupos: <strong>12</strong></div>
+    </div>
+    <div class="pdf-rules">
+      <div class="pdf-rule-chip">💰 Entrada: $100 MXN</div>
+      <div class="pdf-rule-chip">🥇 1er lugar = 2 pts</div>
+      <div class="pdf-rule-chip">🥈 2do lugar = 1 pt</div>
+      <div class="pdf-rule-chip">🏆 Gana más puntos</div>
+    </div>
+    <div class="pdf-grid">
+      ${GRUPOS_DATA.map(gdata => {
+        const sel = selecciones[gdata.grupo] || {};
+        const eq1 = gdata.equipos.find(e => e.nombre === sel.primero);
+        const eq2 = gdata.equipos.find(e => e.nombre === sel.segundo);
+        return `
+        <div class="pdf-grupo">
+          <div class="pdf-grupo-header">⚽ Grupo ${gdata.grupo}</div>
+          <div class="pdf-row primero">
+            <span class="pdf-flag">${eq1 ? eq1.bandera : ''}</span>
+            <div>
+              <div class="pdf-pos">🥇 1er Lugar</div>
+              <div class="pdf-name">${sel.primero || '-'}</div>
+            </div>
+          </div>
+          <div class="pdf-row segundo">
+            <span class="pdf-flag">${eq2 ? eq2.bandera : ''}</span>
+            <div>
+              <div class="pdf-pos">🥈 2do Lugar</div>
+              <div class="pdf-name">${sel.segundo || '-'}</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="pdf-footer">
+      <div><strong>Rumbo al Oro Mundialista 2026 ©</strong></div>
+      <div>Que gane el mejor estratega del Mundial ⚽🏆</div>
+      <div style="margin-top:6px; color:#333; font-weight:700;">📅 Pronóstico registrado el: ${fecha} a las ${hora}</div>
+      <div style="margin-top:2px; color:#aaa;">Participante: ${participante} · Creado por: Francisco De Jesús Luna Benítez</div>
+      <div style="margin-top:4px; color:#bbb; font-size:9px; font-style:italic;">Este documento es comprobante oficial de quiniela — la fecha y hora garantizan la validez del pronóstico.</div>
+    </div>
+  `;
+
+  try {
+    const canvas = await html2canvas(tpl, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      width: 794,
+      windowWidth: 794
+    });
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    const pdfW = pdf.internal.pageSize.getWidth();
+    const pdfH = (canvas.height * pdfW) / canvas.width;
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+
+    const safeNombre = participante.replace(/[^a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ ]/g,'').replace(/ /g,'_');
+    pdf.save(`Quiniela_2026_${safeNombre}.pdf`);
+    showToast('✅ ¡PDF descargado exitosamente!');
+  } catch(err) {
+    showToast('❌ Error al generar PDF. Intenta de nuevo.', true);
+    console.error(err);
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '📄 Descargar PDF';
+}
+
+// ===========================
+// INIT
+// ===========================
+document.addEventListener('DOMContentLoaded', () => {
+  showScreen('screen-intro');
+});
+</script>
+</body>
+</html>
