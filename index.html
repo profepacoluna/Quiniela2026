@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚽ Rumbo al Oro Mundialista 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ============================================================
+   VARIABLES Y RESET
+============================================================ */
+:root {
+  --gold:      #F5C518;
+  --gold-lt:   #FFE566;
+  --gold-dk:   #B8920A;
+  --gold-dim:  rgba(245,197,24,0.18);
+  --gold-glow: rgba(245,197,24,0.35);
+  --green:     #0F5C2E;
+  --green2:    #166534;
+  --gneon:     #22C55E;
+  --bronze:    #CD7F32;
+  --br-dim:    rgba(205,127,50,0.18);
+  --silver:    #C0C0C0;
+  --si-dim:    rgba(192,192,192,0.15);
+  --black:     #080808;
+  --d1:        #111111;
+  --d2:        #181818;
+  --d3:        #202020;
+  --d4:        #2A2A2A;
+  --white:     #FFFFFF;
+  --w90:       rgba(255,255,255,0.9);
+  --w70:       rgba(255,255,255,0.7);
+  --w40:       rgba(255,255,255,0.4);
+  --w15:       rgba(255,255,255,0.08);
+  --w05:       rgba(255,255,255,0.04);
+  --r-lg:      20px;
+  --r-md:      12px;
+  --r-sm:      8px;
+  --sh-gold:   0 0 40px rgba(245,197,24,0.25);
+  --ease:      all 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--black);color:var(--white);
+  min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(15,92,46,0.22) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 100%,rgba(245,197,24,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 50%,rgba(245,197,24,0.05) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,  transparent,transparent 79px,rgba(255,255,255,0.015) 79px,rgba(255,255,255,0.015) 80px),
+    repeating-linear-gradient(90deg, transparent,transparent 79px,rgba(255,255,255,0.015) 79px,rgba(255,255,255,0.015) 80px);
+  pointer-events:none;
+}
+body>*{position:relative;z-index:1;}
+.screen{display:none;}
+.screen.active{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ============================================================
+   PANTALLA 1 — INTRO
+============================================================ */
+#s-intro{align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem;}
+.intro-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold-dim);border:1px solid var(--gold);
+  color:var(--gold);font-family:'Barlow Condensed',sans-serif;
+  font-size:0.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  padding:6px 18px;border-radius:50px;margin-bottom:1.8rem;
+  animation:fadeDown 0.7s ease both;
+}
+.intro-ball{
+  font-size:5rem;display:block;margin-bottom:0.5rem;
+  animation:ballBounce 2.5s ease-in-out infinite,fadeDown 0.7s 0.05s ease both;
+}
+.intro-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,9vw,7.5rem);
+  line-height:0.88;letter-spacing:3px;color:var(--white);
+  text-shadow:0 0 80px rgba(245,197,24,0.15);
+  animation:fadeDown 0.7s 0.1s ease both;
+}
+.intro-h1 em{color:var(--gold);font-style:normal;}
+.intro-year{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(5rem,16vw,13rem);line-height:0.82;letter-spacing:6px;
+  color:transparent;-webkit-text-stroke:1.5px rgba(245,197,24,0.25);
+  animation:fadeDown 0.7s 0.15s ease both;margin-bottom:1rem;
+}
+.intro-sub{
+  font-size:clamp(0.95rem,2.2vw,1.2rem);color:var(--w70);
+  font-weight:300;line-height:1.7;max-width:480px;
+  margin:0 auto 2.5rem;animation:fadeDown 0.7s 0.2s ease both;
+}
+.intro-cta{animation:fadeUp 0.7s 0.28s ease both;}
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:var(--black);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.1rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;
+  padding:16px 44px;border:none;border-radius:50px;cursor:pointer;
+  transition:var(--ease);box-shadow:0 8px 32px var(--gold-glow);
+}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-3px);box-shadow:0 14px 48px rgba(245,197,24,0.55);}
+.intro-stats{
+  display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;
+  margin-top:3rem;animation:fadeUp 0.7s 0.38s ease both;
+}
+.istat .n{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1;}
+.istat .l{font-size:0.72rem;color:var(--w70);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.intro-creator{
+  margin-top:2.5rem;font-size:0.75rem;color:var(--w40);letter-spacing:0.5px;
+  animation:fadeUp 0.7s 0.45s ease both;
+}
+.intro-creator strong{color:var(--gold);opacity:0.7;}
+
+/* ============================================================
+   PANTALLA 2 — REGISTRO
+============================================================ */
+#s-registro{align-items:center;justify-content:center;padding:2rem 1.5rem;}
+.reg-card{
+  background:var(--d2);border:1px solid rgba(245,197,24,0.2);
+  border-radius:26px;padding:3rem 2.5rem;
+  max-width:460px;width:100%;text-align:center;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6),var(--sh-gold);
+  animation:scaleIn 0.45s ease both;
+}
+.reg-icon{font-size:3.5rem;margin-bottom:0.75rem;}
+.reg-h2{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);margin-bottom:0.4rem;}
+.reg-sub{color:var(--w70);font-size:0.9rem;font-weight:300;margin-bottom:2rem;}
+.field-wrap{position:relative;margin-bottom:1.25rem;}
+.field-wrap input{
+  width:100%;background:var(--d3);border:2px solid var(--w15);
+  border-radius:12px;padding:15px 20px;
+  font-family:'Barlow',sans-serif;font-size:1.05rem;font-weight:500;
+  color:var(--white);outline:none;transition:border-color 0.3s;
+}
+.field-wrap input:focus{border-color:var(--gold);}
+.field-wrap input::placeholder{color:var(--w40);}
+.reg-error{
+  background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);
+  border-radius:8px;padding:9px 14px;font-size:0.82rem;color:#FF7B7B;
+  margin-bottom:1rem;display:none;
+}
+.reg-error.show{display:block;}
+.reg-mot{
+  font-size:0.88rem;color:var(--gold);font-style:italic;
+  margin-top:1.25rem;min-height:1.4em;opacity:0;transition:opacity 0.5s;
+}
+.reg-mot.show{opacity:1;}
+
+/* ============================================================
+   PANTALLA 3 — REGLAS
+============================================================ */
+#s-reglas{align-items:center;justify-content:center;padding:2rem 1.5rem;}
+.reglas-card{
+  background:var(--d2);border:1px solid var(--gold-dim);
+  border-radius:26px;padding:2.5rem;max-width:520px;width:100%;
+  box-shadow:0 30px 80px rgba(0,0,0,0.55);animation:scaleIn 0.45s ease both;
+}
+.rg-top{text-align:center;margin-bottom:2rem;}
+.rg-top .ico{font-size:2.8rem;display:block;margin-bottom:0.5rem;}
+.rg-top h2{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);}
+.rg-top p{color:var(--w70);font-size:0.88rem;margin-top:0.25rem;}
+.precio-box{
+  background:linear-gradient(135deg,var(--gold-dim),rgba(245,197,24,0.04));
+  border:1px solid var(--gold);border-radius:14px;
+  padding:1.25rem;text-align:center;margin-bottom:1.25rem;
+}
+.precio-box .pl{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.precio-box .pa{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--gold);line-height:1;}
+.precio-box .pd{font-size:0.82rem;color:var(--w70);}
+.ri{
+  display:flex;align-items:center;gap:1rem;
+  background:var(--d3);border:1px solid var(--w15);
+  border-radius:12px;padding:1rem 1.2rem;margin-bottom:0.65rem;
+  transition:border-color 0.3s;
+}
+.ri:hover{border-color:var(--gold-dim);}
+.ri .ico{font-size:1.6rem;flex-shrink:0;}
+.ri .tx strong{display:block;font-size:0.95rem;font-weight:700;color:var(--white);}
+.ri .tx span{font-size:0.82rem;color:var(--w70);}
+.max-pts{
+  text-align:center;margin-top:1.25rem;
+  background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);
+  border-radius:10px;padding:0.75rem;font-size:0.85rem;color:var(--gneon);
+}
+.max-pts strong{font-size:1rem;}
+
+/* ============================================================
+   APP BAR Y PROGRESS — PANTALLAS 4 y 5
+============================================================ */
+.app-bar{
+  background:rgba(8,8,8,0.96);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--w15);padding:0.65rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;gap:0.5rem;
+}
+.ab-logo{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:var(--gold);letter-spacing:1px;white-space:nowrap;}
+.ab-user{font-size:0.78rem;color:var(--w70);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ab-user strong{color:var(--gold);}
+.prog-wrap{
+  background:var(--d2);border-bottom:1px solid var(--w15);
+  padding:0.75rem 1.5rem;position:sticky;top:49px;z-index:199;
+}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;}
+.prog-lbl{font-size:0.78rem;color:var(--w70);font-weight:500;}
+.prog-lbl span{color:var(--gold);font-weight:700;}
+.prog-pct{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--gold);}
+.prog-bg{height:5px;background:var(--d4);border-radius:10px;overflow:hidden;}
+.prog-fill{
+  height:100%;background:linear-gradient(90deg,var(--green2),var(--gold));
+  border-radius:10px;width:0%;
+  transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+.main-body{padding:1.5rem;max-width:940px;width:100%;margin:0 auto;flex:1;}
+
+/* Motivational banner */
+.motiv-banner{
+  display:flex;align-items:center;gap:1rem;
+  background:linear-gradient(135deg,rgba(15,92,46,0.25),rgba(245,197,24,0.08));
+  border:1px solid rgba(245,197,24,0.2);border-radius:14px;
+  padding:1rem 1.25rem;margin-bottom:1.5rem;transition:var(--ease);
+}
+.mb-ico{font-size:1.8rem;flex-shrink:0;}
+.mb-txt{font-size:0.92rem;color:var(--w90);line-height:1.4;}
+.mb-txt strong{color:var(--gold);}
+
+/* ============================================================
+   GRUPO CARDS
+============================================================ */
+.g-card{
+  background:var(--d2);border:1px solid var(--w15);
+  border-radius:var(--r-lg);margin-bottom:1rem;
+  overflow:hidden;transition:border-color 0.3s,box-shadow 0.3s;
+}
+.g-card.complete{border-color:rgba(34,197,94,0.4);box-shadow:0 0 24px rgba(34,197,94,0.08);}
+.g-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.25rem;background:var(--d3);
+  border-bottom:1px solid var(--w15);cursor:pointer;user-select:none;gap:0.5rem;
+}
+.g-hl{display:flex;align-items:center;gap:0.75rem;}
+.g-badge{
+  background:var(--gold-dim);border:1px solid var(--gold);color:var(--gold);
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;
+  padding:2px 11px;border-radius:6px;flex-shrink:0;
+}
+.g-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.8px;color:var(--w90);
+}
+.g-right{display:flex;align-items:center;gap:0.6rem;}
+.g-st{display:flex;align-items:center;gap:5px;font-size:0.72rem;}
+.g-st .dot{width:7px;height:7px;border-radius:50%;background:var(--w15);transition:background 0.3s;}
+.g-st .lbl{color:var(--w70);transition:color 0.3s;}
+.g-card.complete .g-st .dot{background:var(--gneon);}
+.g-card.complete .g-st .lbl{color:var(--gneon);}
+.g-chev{color:var(--w70);font-size:0.7rem;transition:transform 0.3s;}
+.g-card.open .g-chev{transform:rotate(180deg);}
+.g-body{display:none;padding:1.25rem;}
+.g-card.open .g-body{display:block;}
+
+/* Pos labels */
+.pos-labels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:0.75rem;}
+.pos-lbl{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  padding:5px 8px;background:var(--d4);border-radius:6px;
+}
+.pos-lbl.pp1{color:var(--gold);}
+.pos-lbl.pp2{color:var(--silver);}
+.pos-lbl.pp3{color:var(--bronze);}
+
+/* Equipo grid */
+.eq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.55rem;}
+@media(min-width:480px){.eq-grid{grid-template-columns:repeat(4,1fr);}}
+
+.eq-card{
+  position:relative;background:var(--d3);border:2px solid var(--w15);
+  border-radius:var(--r-sm);padding:0.75rem 0.4rem;
+  cursor:pointer;transition:var(--ease);
+  text-align:center;user-select:none;overflow:hidden;
+}
+.eq-card:hover:not(.s1):not(.s2):not(.s3){
+  border-color:var(--gold-dim);transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(0,0,0,0.45);
+}
+.eq-card.s1{border-color:var(--gold);background:rgba(245,197,24,0.1);box-shadow:0 0 18px rgba(245,197,24,0.22);}
+.eq-card.s2{border-color:var(--silver);background:var(--si-dim);box-shadow:0 0 14px rgba(192,192,192,0.15);}
+.eq-card.s3{border-color:var(--bronze);background:var(--br-dim);box-shadow:0 0 14px rgba(205,127,50,0.18);}
+.eq-rank{position:absolute;top:4px;right:6px;font-family:'Bebas Neue',sans-serif;font-size:0.82rem;}
+.eq-card.s1 .eq-rank{color:var(--gold);}
+.eq-card.s2 .eq-rank{color:var(--silver);}
+.eq-card.s3 .eq-rank{color:var(--bronze);}
+.eq-flag{font-size:2rem;display:block;margin-bottom:0.2rem;line-height:1;}
+.eq-name{font-size:0.65rem;font-weight:600;line-height:1.2;text-transform:uppercase;letter-spacing:0.4px;color:var(--w70);}
+.eq-card.s1 .eq-name{color:var(--gold);}
+.eq-card.s2 .eq-name{color:var(--silver);}
+.eq-card.s3 .eq-name{color:var(--bronze);}
+
+/* Selección preview */
+.sel-prev{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--w15);}
+.slot{
+  display:flex;align-items:center;gap:0.45rem;
+  background:var(--d4);border:1px dashed var(--w15);
+  border-radius:8px;padding:0.55rem 0.65rem;transition:all 0.3s;min-height:46px;
+}
+.slot.fp1{border-color:var(--gold);border-style:solid;}
+.slot.fp2{border-color:var(--silver);border-style:solid;}
+.slot.fp3{border-color:var(--bronze);border-style:solid;}
+.slot .si{font-size:1rem;flex-shrink:0;}
+.slot .sinfo{flex:1;min-width:0;}
+.slot .slab{font-size:0.6rem;color:var(--w70);text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+.slot .snam{font-size:0.78rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.slot.fp1 .snam{color:var(--gold);}
+.slot.fp2 .snam{color:var(--silver);}
+.slot.fp3 .snam{color:var(--bronze);}
+.slot .sempty{font-size:0.72rem;color:rgba(255,255,255,0.22);font-style:italic;}
+
+/* ============================================================
+   RESUMEN
+============================================================ */
+.rh{text-align:center;padding:2.5rem 1.5rem 2rem;position:relative;}
+.rh::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.rh-trophy{font-size:4rem;display:block;animation:float 3.5s ease-in-out infinite;}
+.rh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,7vw,4rem);color:var(--gold);line-height:1;margin:0.5rem 0 0.3rem;}
+.rh-part{font-size:1.05rem;color:var(--w70);font-weight:300;}
+.rh-part strong{color:var(--white);font-weight:700;}
+.resumen-body{padding:1.5rem;max-width:940px;width:100%;margin:0 auto;flex:1;}
+.alert-box{display:flex;align-items:flex-start;gap:0.75rem;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.88rem;}
+.alert-box.ok{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.35);}
+.alert-box.warn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);}
+.alert-box .ai{font-size:1.4rem;flex-shrink:0;}
+.alert-box .at strong{display:block;font-size:0.95rem;font-weight:700;margin-bottom:2px;}
+.alert-box.ok .at strong{color:var(--gneon);}
+.alert-box.warn .at strong{color:#FF7B7B;}
+.alert-box .at span{color:var(--w70);}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.res-g{background:var(--d2);border:1px solid var(--w15);border-radius:var(--r-md);overflow:hidden;}
+.res-gh{background:var(--d3);padding:0.55rem 1rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--w15);}
+.res-gbadge{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold);padding:1px 8px;border-radius:4px;}
+.res-gname{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--w70);}
+.res-row{display:flex;align-items:center;gap:0.65rem;padding:0.7rem 1rem;border-bottom:1px solid var(--w05);}
+.res-row:last-child{border-bottom:none;}
+.res-row .rm{font-size:1rem;flex-shrink:0;}
+.res-row .rf{font-size:1.4rem;flex-shrink:0;}
+.res-row .ri .rpos{font-size:0.6rem;color:var(--w70);text-transform:uppercase;letter-spacing:1px;}
+.res-row .ri .rn{font-size:0.85rem;font-weight:700;}
+.res-row.rp1 .rn{color:var(--gold);}
+.res-row.rp2 .rn{color:var(--silver);}
+.res-row.rp3 .rn{color:var(--bronze);}
+.res-row.empty .rn{color:var(--w40);font-style:italic;}
+
+/* ============================================================
+   ACCIONES + BOTONES
+============================================================ */
+.actions-bar{
+  background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);
+  border-top:1px solid var(--w15);padding:1.25rem 1.5rem;
+  display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;
+  position:sticky;bottom:0;z-index:150;
+}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;border:2px solid var(--w15);
+  color:var(--w90);font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:11px 26px;border-radius:50px;cursor:pointer;transition:var(--ease);
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-pdf{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dk));
+  color:var(--black);font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+  padding:11px 32px;border:none;border-radius:50px;cursor:pointer;
+  transition:var(--ease);box-shadow:0 6px 28px var(--gold-glow);
+}
+.btn-pdf:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 40px rgba(245,197,24,0.55);}
+.btn-pdf:disabled{opacity:0.45;cursor:not-allowed;}
+.btn-ver{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:380px;margin:1.5rem auto 0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dk));
+  color:var(--black);font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+  padding:14px 32px;border:none;border-radius:50px;cursor:pointer;
+  transition:var(--ease);box-shadow:0 6px 28px var(--gold-glow);
+}
+.btn-ver:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(245,197,24,0.55);}
+
+/* ============================================================
+   TOAST
+============================================================ */
+#toast{
+  position:fixed;bottom:5.5rem;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--d3);border:1px solid var(--gold);color:var(--gold);
+  border-radius:12px;padding:11px 22px;font-size:0.88rem;font-weight:600;
+  box-shadow:0 12px 40px rgba(0,0,0,0.55);z-index:9999;
+  transition:transform 0.38s cubic-bezier(0.34,1.56,0.64,1);
+  white-space:nowrap;pointer-events:none;
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.err{border-color:#FF6B6B;color:#FF6B6B;}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.app-footer{background:var(--d2);border-top:1px solid var(--w15);padding:1.5rem;text-align:center;}
+.app-footer .fl{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--gold);letter-spacing:2px;margin-bottom:0.2rem;}
+.app-footer .fs{font-size:0.78rem;color:var(--w70);font-style:italic;}
+.app-footer .fc{font-size:0.7rem;color:var(--w40);margin-top:0.4rem;letter-spacing:0.4px;}
+.app-footer .fc strong{color:var(--gold);opacity:0.65;}
+
+/* ============================================================
+   PDF TEMPLATE (oculto)
+============================================================ */
+#pdf-tpl{
+  position:fixed;left:-9999px;top:0;
+  width:794px;background:#fff;color:#111;
+  padding:36px;font-family:Arial,sans-serif;font-size:11.5px;
+}
+#pdf-tpl .ph{background:#0a0a0a;color:#F5C518;padding:18px 28px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+#pdf-tpl .ph .pt{font-size:26px;font-weight:900;letter-spacing:2px;line-height:1;}
+#pdf-tpl .ph .ps{font-size:9.5px;color:rgba(245,197,24,0.65);letter-spacing:3px;margin-top:3px;}
+#pdf-tpl .ph .py{font-size:42px;font-weight:900;line-height:1;color:rgba(245,197,24,0.4);letter-spacing:4px;}
+#pdf-tpl .pinfo{display:flex;justify-content:space-between;gap:10px;margin-bottom:14px;}
+#pdf-tpl .pib{background:#f7f7f7;border:1px solid #e8e8e8;border-radius:7px;padding:10px 14px;flex:1;}
+#pdf-tpl .pib.hl{background:#fff8d6;border-color:#F5C518;}
+#pdf-tpl .pib .pibl{font-size:8.5px;color:#888;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:3px;}
+#pdf-tpl .pib .pibv{font-size:13px;font-weight:800;color:#111;}
+#pdf-tpl .pib.hl .pibv{color:#8B6E00;}
+#pdf-tpl .prules{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;}
+#pdf-tpl .prc{background:#f3f4f6;border:1px solid #ddd;border-radius:5px;padding:4px 11px;font-size:9.5px;color:#333;font-weight:600;}
+#pdf-tpl .pgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+#pdf-tpl .pgrupo{border:1.5px solid #e0e0e0;border-radius:7px;overflow:hidden;}
+#pdf-tpl .pgh{background:#111;color:#F5C518;padding:5px 10px;font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+#pdf-tpl .pr{display:flex;align-items:center;gap:7px;padding:6.5px 10px;border-bottom:1px solid #f0f0f0;}
+#pdf-tpl .pr:last-child{border-bottom:none;}
+#pdf-tpl .prf{font-size:15px;line-height:1;}
+#pdf-tpl .prpos{font-size:8.5px;color:#888;text-transform:uppercase;letter-spacing:0.5px;}
+#pdf-tpl .prn{font-size:10.5px;font-weight:700;}
+#pdf-tpl .pr.rp1 .prn{color:#8B6E00;}
+#pdf-tpl .pr.rp2 .prn{color:#555;}
+#pdf-tpl .pr.rp3 .prn{color:#904F00;}
+#pdf-tpl .pfoot{border-top:1.5px solid #e8e8e8;padding-top:12px;text-align:center;}
+#pdf-tpl .sello{background:#fff8d6;border:1.5px solid #F5C518;border-radius:8px;padding:8px 20px;display:inline-block;margin-bottom:8px;}
+#pdf-tpl .sello .st{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#8B6E00;font-weight:800;}
+#pdf-tpl .sello .sf{font-size:14px;font-weight:900;color:#5C4A00;letter-spacing:1px;margin:2px 0;}
+#pdf-tpl .sello .sh{font-size:11px;font-weight:700;color:#7A6200;}
+#pdf-tpl .pfsub{font-size:9px;color:#aaa;margin-top:5px;}
+#pdf-tpl .pfcreator{font-size:9.5px;color:#777;margin-top:3px;font-weight:700;}
+#pdf-tpl .pfaviso{font-size:8px;color:#bbb;font-style:italic;margin-top:4px;}
+
+/* ============================================================
+   ANIMACIONES
+============================================================ */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp  {from{opacity:0;transform:translateY(18px); }to{opacity:1;transform:translateY(0);}}
+@keyframes scaleIn {from{opacity:0;transform:scale(0.88);}       to{opacity:1;transform:scale(1);}}
+@keyframes float   {0%,100%{transform:translateY(0);}50%{transform:translateY(-11px);}}
+@keyframes ballBounce{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  40%    {transform:translateY(-18px) rotate(15deg);}
+  70%    {transform:translateY(-8px) rotate(25deg);}
+}
+@keyframes popIn{0%{transform:scale(0.75);opacity:0;}70%{transform:scale(1.06);}100%{transform:scale(1);opacity:1;}}
+.pop{animation:popIn 0.28s ease both;}
+
+/* Responsive */
+@media(max-width:480px){
+  .actions-bar{flex-direction:column;align-items:stretch;}
+  .btn-pdf,.btn-outline{justify-content:center;}
+  .res-grid{grid-template-columns:1fr;}
+  .sel-prev{grid-template-columns:1fr;}
+  .pos-labels{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ====================================================
+     S1 — INTRO
+==================================================== -->
+<div id="s-intro" class="screen active">
+  <span class="intro-ball">⚽</span>
+  <span class="intro-eyebrow">🌍 FIFA World Cup · Edición Especial 2026</span>
+  <h1 class="intro-h1">Rumbo al <em>Oro</em><br>Mundialista</h1>
+  <div class="intro-year">2026</div>
+  <p class="intro-sub">Demuestra que sabes de fútbol y conviértete en el campeón de la quiniela.</p>
+  <div class="intro-cta">
+    <button class="btn-gold" onclick="ir('s-registro')">🏆 Iniciar Quiniela</button>
+  </div>
+  <div class="intro-stats">
+    <div class="istat"><div class="n">12</div><div class="l">Grupos</div></div>
+    <div class="istat"><div class="n">48</div><div class="l">Selecciones</div></div>
+    <div class="istat"><div class="n">36</div><div class="l">Pronósticos</div></div>
+    <div class="istat"><div class="n">72</div><div class="l">Pts. Máx.</div></div>
+  </div>
+  <div class="intro-creator">Creado por: <strong>Francisco De Jesús Luna Benítez</strong></div>
+</div>
+
+<!-- ====================================================
+     S2 — REGISTRO
+==================================================== -->
+<div id="s-registro" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem;">
+    <div class="reg-card">
+      <div class="reg-icon">👤</div>
+      <h2 class="reg-h2">¿Cómo te llamas?</h2>
+      <p class="reg-sub">Ingresa tu nombre para registrar tu quiniela oficial.</p>
+      <div class="reg-error" id="reg-err">⚠️ Por favor escribe tu nombre para continuar.</div>
+      <div class="field-wrap">
+        <input type="text" id="nom-input" placeholder="Tu nombre completo..."
+               maxlength="60"
+               oninput="onNomCh()"
+               onkeydown="if(event.key==='Enter')registrar()">
+      </div>
+      <button class="btn-gold" style="width:100%;justify-content:center;" onclick="registrar()">⚽ Continuar</button>
+      <p class="reg-mot" id="reg-mot">"Tu camino al campeonato comienza aquí ⚽"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     S3 — REGLAS
+==================================================== -->
+<div id="s-reglas" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem;">
+    <div class="reglas-card">
+      <div class="rg-top">
+        <span class="ico">📜</span>
+        <h2>Reglas Oficiales</h2>
+        <p>Lee las reglas antes de comenzar tu quiniela</p>
+      </div>
+      <div class="precio-box">
+        <div class="pl">Entrada por participante</div>
+        <div class="pa">$100</div>
+        <div class="pd">Pesos mexicanos · Premio acumulado</div>
+      </div>
+      <div class="ri"><span class="ico">🥇</span><div class="tx"><strong>Primer lugar correcto</strong><span>Acumulas 3 puntos por acierto</span></div></div>
+      <div class="ri"><span class="ico">🥈</span><div class="tx"><strong>Segundo lugar correcto</strong><span>Acumulas 2 puntos por acierto</span></div></div>
+      <div class="ri"><span class="ico">🥉</span><div class="tx"><strong>Tercer lugar correcto</strong><span>Acumulas 1 punto por acierto</span></div></div>
+      <div class="ri"><span class="ico">🏆</span><div class="tx"><strong>¿Quién gana?</strong><span>Quien acumule más puntos al finalizar la fase de grupos</span></div></div>
+      <div class="max-pts">Puntaje máximo posible: <strong>12 grupos × 6 pts = 72 puntos</strong></div>
+      <button class="btn-gold" style="width:100%;justify-content:center;margin-top:1.5rem;" onclick="iniciarQuiniela()">🚀 ¡Comenzar Quiniela!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+     S4 — QUINIELA
+==================================================== -->
+<div id="s-quiniela" class="screen">
+  <div class="app-bar">
+    <div class="ab-logo">⚽ Rumbo al Oro 2026</div>
+    <div class="ab-user">Participante: <strong id="hdr-nom">—</strong></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-lbl">Grupos completados: <span id="prog-count">0</span> de 12</div>
+      <div class="prog-pct" id="prog-pct">0%</div>
+    </div>
+    <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
+  </div>
+  <div class="main-body">
+    <div class="motiv-banner" id="motiv-ban">
+      <span class="mb-ico">🏟️</span>
+      <div class="mb-txt"><strong>¡El torneo te espera!</strong> Selecciona 🥇 1°, 🥈 2° y 🥉 3° en cada grupo. 1er clic = 1er lugar · 2do clic = 2do · 3er clic = 3ro.</div>
+    </div>
+    <div id="grupos-wrap"></div>
+    <button class="btn-ver" onclick="irResumen()">📋 Ver Mi Pronóstico Completo</button>
+  </div>
+  <footer class="app-footer">
+    <div class="fl">Rumbo al Oro Mundialista 2026 ©</div>
+    <div class="fs">Que gane el mejor estratega del Mundial ⚽🏆</div>
+    <div class="fc">Creado por: <strong>Francisco De Jesús Luna Benítez</strong></div>
+  </footer>
+</div>
+
+<!-- ====================================================
+     S5 — RESUMEN
+==================================================== -->
+<div id="s-resumen" class="screen">
+  <div class="app-bar">
+    <div class="ab-logo">⚽ Rumbo al Oro 2026</div>
+    <div class="ab-user">Participante: <strong id="res-hdr-nom">—</strong></div>
+  </div>
+  <div class="rh">
+    <span class="rh-trophy">🏆</span>
+    <div class="rh-title">Mi Pronóstico Mundialista</div>
+    <div class="rh-part">Participante: <strong id="res-nom">—</strong></div>
+  </div>
+  <div class="resumen-body">
+    <div id="res-alert"></div>
+    <div id="res-grid" class="res-grid"></div>
+  </div>
+  <div class="actions-bar">
+    <button class="btn-outline" onclick="ir('s-quiniela')">← Editar Quiniela</button>
+    <button class="btn-pdf" id="btn-pdf" onclick="generarPDF()">📄 Descargar PDF</button>
+  </div>
+  <footer class="app-footer">
+    <div class="fl">Rumbo al Oro Mundialista 2026 ©</div>
+    <div class="fs">Que gane el mejor estratega del Mundial ⚽🏆</div>
+    <div class="fc">Creado por: <strong>Francisco De Jesús Luna Benítez</strong></div>
+  </footer>
+</div>
+
+<!-- PDF TEMPLATE oculto -->
+<div id="pdf-tpl"></div>
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   DATOS — GRUPOS Y EQUIPOS MUNDIALISTAS 2026
+============================================================ */
+const GRUPOS = [
+  {id:'A',eq:[{n:'México',b:'🇲🇽'},{n:'Sudáfrica',b:'🇿🇦'},{n:'Corea del Sur',b:'🇰🇷'},{n:'Chequia',b:'🇨🇿'}]},
+  {id:'B',eq:[{n:'Canadá',b:'🇨🇦'},{n:'Bosnia y Herzegovina',b:'🇧🇦'},{n:'Catar',b:'🇶🇦'},{n:'Suiza',b:'🇨🇭'}]},
+  {id:'C',eq:[{n:'Brasil',b:'🇧🇷'},{n:'Marruecos',b:'🇲🇦'},{n:'Haití',b:'🇭🇹'},{n:'Escocia',b:'🏴󠁧󠁢󠁳󠁣󠁴󠁿'}]},
+  {id:'D',eq:[{n:'Estados Unidos',b:'🇺🇸'},{n:'Paraguay',b:'🇵🇾'},{n:'Australia',b:'🇦🇺'},{n:'Turquía',b:'🇹🇷'}]},
+  {id:'E',eq:[{n:'Alemania',b:'🇩🇪'},{n:'Curazao',b:'🇨🇼'},{n:'Costa de Marfil',b:'🇨🇮'},{n:'Ecuador',b:'🇪🇨'}]},
+  {id:'F',eq:[{n:'Países Bajos',b:'🇳🇱'},{n:'Japón',b:'🇯🇵'},{n:'Suecia',b:'🇸🇪'},{n:'Túnez',b:'🇹🇳'}]},
+  {id:'G',eq:[{n:'Bélgica',b:'🇧🇪'},{n:'Egipto',b:'🇪🇬'},{n:'Irán',b:'🇮🇷'},{n:'Nueva Zelanda',b:'🇳🇿'}]},
+  {id:'H',eq:[{n:'España',b:'🇪🇸'},{n:'Cabo Verde',b:'🇨🇻'},{n:'Arabia Saudita',b:'🇸🇦'},{n:'Uruguay',b:'🇺🇾'}]},
+  {id:'I',eq:[{n:'Francia',b:'🇫🇷'},{n:'Senegal',b:'🇸🇳'},{n:'Irak',b:'🇮🇶'},{n:'Noruega',b:'🇳🇴'}]},
+  {id:'J',eq:[{n:'Argentina',b:'🇦🇷'},{n:'Argelia',b:'🇩🇿'},{n:'Austria',b:'🇦🇹'},{n:'Jordania',b:'🇯🇴'}]},
+  {id:'K',eq:[{n:'Portugal',b:'🇵🇹'},{n:'Rep. Dem. del Congo',b:'🇨🇩'},{n:'Uzbekistán',b:'🇺🇿'},{n:'Colombia',b:'🇨🇴'}]},
+  {id:'L',eq:[{n:'Inglaterra',b:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},{n:'Croacia',b:'🇭🇷'},{n:'Ghana',b:'🇬🇭'},{n:'Panamá',b:'🇵🇦'}]},
+];
+const GNAMES = {
+  A:'México & Sudáfrica',B:'Canadá & Suiza',C:'Brasil & Marruecos',
+  D:'EE.UU. & Paraguay',E:'Alemania & Ecuador',F:'Países Bajos & Japón',
+  G:'Bélgica & Egipto',H:'España & Uruguay',I:'Francia & Senegal',
+  J:'Argentina & Argelia',K:'Portugal & Colombia',L:'Inglaterra & Croacia',
+};
+const MSGS_MOT = [
+  '¡Excelente elección! 🔥','¡Gran estrategia, campeón! ⚽',
+  'El campeonato te espera 🏆','¡Ya casi completas tu quiniela!',
+  '¡Sigue así, imparable! 💪','¡Ese ojo mundialista! 🌍',
+  '¡Tu pronóstico quedó registrado! ✅',
+];
+
+/* ============================================================
+   ESTADO
+============================================================ */
+let participante = '';
+// selecciones[gid] = { p1, p2, p3 }
+const SEL = {};
+let built = false;
+
+/* ============================================================
+   NAVEGACIÓN
+============================================================ */
+function ir(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============================================================
+   REGISTRO
+============================================================ */
+function onNomCh(){
+  const v=document.getElementById('nom-input').value.trim();
+  document.getElementById('reg-err').classList.remove('show');
+  document.getElementById('reg-mot').classList.toggle('show',v.length>0);
+}
+function registrar(){
+  const v=document.getElementById('nom-input').value.trim();
+  if(!v){document.getElementById('reg-err').classList.add('show');document.getElementById('nom-input').focus();return;}
+  participante=v;
+  ir('s-reglas');
+}
+
+/* ============================================================
+   INICIAR QUINIELA
+============================================================ */
+function iniciarQuiniela(){
+  document.getElementById('hdr-nom').textContent=participante;
+  if(!built){buildGrupos();built=true;}
+  ir('s-quiniela');
+}
+
+/* ============================================================
+   BUILD GRUPOS
+============================================================ */
+function buildGrupos(){
+  const wrap=document.getElementById('grupos-wrap');
+  wrap.innerHTML='';
+  GRUPOS.forEach((g,i)=>{
+    if(!SEL[g.id]) SEL[g.id]={p1:null,p2:null,p3:null};
+    const card=document.createElement('div');
+    card.className='g-card'+(i===0?' open':'');
+    card.id='gc-'+g.id;
+    card.innerHTML=buildGCard(g);
+    wrap.appendChild(card);
+  });
+  updateProg();
+}
+
+function buildGCard(g){
+  const s=SEL[g.id];
+  const done=s.p1&&s.p2&&s.p3;
+  return `
+    <div class="g-head" onclick="toggleG('${g.id}')">
+      <div class="g-hl">
+        <span class="g-badge">Grupo ${g.id}</span>
+        <span class="g-name">${GNAMES[g.id]}</span>
+      </div>
+      <div class="g-right">
+        <div class="g-st" id="gst-${g.id}">
+          <div class="dot"></div>
+          <span class="lbl">${done?'✓ Completo':'Pendiente'}</span>
+        </div>
+        <span class="g-chev">▼</span>
+      </div>
+    </div>
+    <div class="g-body">
+      <div class="pos-labels">
+        <div class="pos-lbl pp1">🥇 1er Lugar</div>
+        <div class="pos-lbl pp2">🥈 2do Lugar</div>
+        <div class="pos-lbl pp3">🥉 3er Lugar</div>
+      </div>
+      <div class="eq-grid" id="eqg-${g.id}">
+        ${g.eq.map(eq=>buildEqCard(g.id,eq,s)).join('')}
+      </div>
+      <div class="sel-prev" id="prev-${g.id}">
+        ${buildPrev(g.id,s,g.eq)}
+      </div>
+    </div>`;
+}
+
+function buildEqCard(gid,eq,s){
+  let cls='',rank='';
+  if(s.p1===eq.n){cls=' s1';rank='<span class="eq-rank">1°</span>';}
+  else if(s.p2===eq.n){cls=' s2';rank='<span class="eq-rank">2°</span>';}
+  else if(s.p3===eq.n){cls=' s3';rank='<span class="eq-rank">3°</span>';}
+  return `<div class="eq-card${cls}" id="eq-${gid}-${safe(eq.n)}"
+    onclick="sel('${gid}','${esc(eq.n)}','${esc(eq.b)}')">
+    ${rank}
+    <span class="eq-flag">${eq.b}</span>
+    <div class="eq-name">${eq.n}</div>
+  </div>`;
+}
+
+function buildPrev(gid,s,eqs){
+  const e1=eqs.find(e=>e.n===s.p1);
+  const e2=eqs.find(e=>e.n===s.p2);
+  const e3=eqs.find(e=>e.n===s.p3);
+  const slot=(ico,cls,lbl,eq,nombre)=>`
+    <div class="slot ${cls}" id="slot-${lbl}-${gid}">
+      <span class="si">${ico}</span>
+      <div class="sinfo">
+        <div class="slab">${lbl==='p1'?'1er':'lbl'==='p2'?'2do':'3er'} Lugar</div>
+        ${nombre?`<div class="snam">${eq?eq.b:''} ${nombre}</div>`:'<div class="sempty">Sin selección</div>'}
+      </div>
+    </div>`;
+  // inline labels
+  return `
+    <div class="slot ${s.p1?'fp1':''}" id="slot-p1-${gid}">
+      <span class="si">🥇</span><div class="sinfo"><div class="slab">1er Lugar</div>${s.p1?`<div class="snam">${e1?e1.b:''} ${s.p1}</div>`:'<div class="sempty">Sin selección</div>'}</div>
+    </div>
+    <div class="slot ${s.p2?'fp2':''}" id="slot-p2-${gid}">
+      <span class="si">🥈</span><div class="sinfo"><div class="slab">2do Lugar</div>${s.p2?`<div class="snam">${e2?e2.b:''} ${s.p2}</div>`:'<div class="sempty">Sin selección</div>'}</div>
+    </div>
+    <div class="slot ${s.p3?'fp3':''}" id="slot-p3-${gid}">
+      <span class="si">🥉</span><div class="sinfo"><div class="slab">3er Lugar</div>${s.p3?`<div class="snam">${e3?e3.b:''} ${s.p3}</div>`:'<div class="sempty">Sin selección</div>'}</div>
+    </div>`;
+}
+
+/* ============================================================
+   LÓGICA DE SELECCIÓN
+============================================================ */
+function sel(gid,nombre,bandera){
+  const s=SEL[gid];
+  // Deseleccionar si ya está
+  if(s.p1===nombre){s.p1=null;}
+  else if(s.p2===nombre){s.p2=null;}
+  else if(s.p3===nombre){s.p3=null;}
+  else{
+    // Asignar al primer slot libre
+    if(!s.p1){
+      s.p1=nombre;
+      toast(`🥇 ${bandera} ${nombre} → 1er lugar`);
+    } else if(!s.p2){
+      s.p2=nombre;
+      toast(`🥈 ${bandera} ${nombre} → 2do lugar`);
+    } else if(!s.p3){
+      s.p3=nombre;
+      toast(`🥉 ${bandera} ${nombre} → 3er lugar`);
+      setTimeout(()=>abrirSig(gid),620);
+    } else {
+      // Reemplazar p3
+      s.p3=nombre;
+      toast(`🥉 ${bandera} ${nombre} → nuevo 3er lugar`);
+    }
+  }
+  refrescarG(gid);
+  updateProg();
+  if(s.p1&&s.p2&&s.p3){
+    setMotiv(MSGS_MOT[Math.floor(Math.random()*MSGS_MOT.length)]);
+  }
+}
+
+function refrescarG(gid){
+  const g=GRUPOS.find(x=>x.id===gid);
+  const card=document.getElementById('gc-'+gid);
+  const wasOpen=card.classList.contains('open');
+  const done=SEL[gid].p1&&SEL[gid].p2&&SEL[gid].p3;
+  card.innerHTML=buildGCard(g);
+  if(wasOpen) card.classList.add('open');
+  if(done) card.classList.add('complete');
+  // pop animation
+  ['p1','p2','p3'].forEach(p=>{
+    const n=SEL[gid][p];
+    if(n){
+      const el=document.getElementById(`eq-${gid}-${safe(n)}`);
+      if(el) el.classList.add('pop');
+    }
+  });
+}
+
+function abrirSig(gid){
+  const idx=GRUPOS.findIndex(g=>g.id===gid);
+  document.getElementById('gc-'+gid).classList.remove('open');
+  if(idx<GRUPOS.length-1){
+    const nid=GRUPOS[idx+1].id;
+    const nc=document.getElementById('gc-'+nid);
+    nc.classList.add('open');
+    setTimeout(()=>nc.scrollIntoView({behavior:'smooth',block:'start'}),120);
+  }
+}
+function toggleG(gid){document.getElementById('gc-'+gid).classList.toggle('open');}
+
+/* ============================================================
+   PROGRESO
+============================================================ */
+function updateProg(){
+  let done=0;
+  GRUPOS.forEach(g=>{const s=SEL[g.id];if(s&&s.p1&&s.p2&&s.p3)done++;});
+  const pct=Math.round((done/GRUPOS.length)*100);
+  document.getElementById('prog-count').textContent=done;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  if(done===GRUPOS.length) setMotiv('🎉 ¡Tu quiniela está completa! Revisa y descarga tu PDF.');
+}
+function setMotiv(m){document.getElementById('motiv-ban').querySelector('.mb-txt').innerHTML=m;}
+
+/* ============================================================
+   RESUMEN
+============================================================ */
+function irResumen(){construirResumen();ir('s-resumen');}
+
+function construirResumen(){
+  document.getElementById('res-nom').textContent=participante;
+  document.getElementById('res-hdr-nom').textContent=participante;
+
+  const inc=GRUPOS.filter(g=>{const s=SEL[g.id];return !s||!s.p1||!s.p2||!s.p3;});
+  const aw=document.getElementById('res-alert');
+  const bp=document.getElementById('btn-pdf');
+
+  if(inc.length===0){
+    aw.innerHTML=`<div class="alert-box ok"><span class="ai">✅</span><div class="at"><strong>¡Quiniela completa!</strong><span>Todos los grupos están llenos. Descarga tu quiniela en PDF.</span></div></div>`;
+    bp.disabled=false;
+  } else {
+    aw.innerHTML=`<div class="alert-box warn"><span class="ai">⚠️</span><div class="at"><strong>Quiniela incompleta</strong><span>Faltan: ${inc.map(g=>'Grupo '+g.id).join(', ')}</span></div></div>`;
+    bp.disabled=true;
+  }
+
+  const grid=document.getElementById('res-grid');
+  grid.innerHTML='';
+  GRUPOS.forEach(g=>{
+    const s=SEL[g.id]||{};
+    const e1=g.eq.find(e=>e.n===s.p1);
+    const e2=g.eq.find(e=>e.n===s.p2);
+    const e3=g.eq.find(e=>e.n===s.p3);
+    const row=(med,fl,pos,name,cls)=>`
+      <div class="res-row ${cls}">
+        <span class="rm">${med}</span><span class="rf">${fl}</span>
+        <div class="ri"><div class="rpos">${pos}</div><div class="rn">${name}</div></div>
+      </div>`;
+    const d=document.createElement('div');
+    d.className='res-g';
+    d.innerHTML=`
+      <div class="res-gh"><span class="res-gbadge">Grupo ${g.id}</span><span class="res-gname">${GNAMES[g.id]}</span></div>
+      ${row('🥇',e1?e1.b:'❓','1er Lugar',s.p1||'— Sin selección —',s.p1?'rp1':'empty')}
+      ${row('🥈',e2?e2.b:'❓','2do Lugar',s.p2||'— Sin selección —',s.p2?'rp2':'empty')}
+      ${row('🥉',e3?e3.b:'❓','3er Lugar',s.p3||'— Sin selección —',s.p3?'rp3':'empty')}
+    `;
+    grid.appendChild(d);
+  });
+}
+
+/* ============================================================
+   PDF — GENERACIÓN CON SELLO ANTI-TRAMPA
+============================================================ */
+async function generarPDF(){
+  const inc=GRUPOS.filter(g=>{const s=SEL[g.id];return !s||!s.p1||!s.p2||!s.p3;});
+  if(inc.length>0){toast('⚠️ Faltan: '+inc.map(g=>'Grupo '+g.id).join(', '),true);return;}
+
+  const btn=document.getElementById('btn-pdf');
+  btn.disabled=true; btn.innerHTML='⏳ Generando PDF...';
+
+  // Capturar fecha y hora EXACTA en el momento de la descarga
+  const ahora=new Date();
+  const optsF={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  const fechaLarga=ahora.toLocaleDateString('es-MX',optsF);
+  const fechaCorta=ahora.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const hora=ahora.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+
+  const tpl=document.getElementById('pdf-tpl');
+  tpl.innerHTML=`
+    <div class="ph">
+      <div><div class="pt">⚽ RUMBO AL ORO MUNDIALISTA</div><div class="ps">QUINIELA OFICIAL · FIFA WORLD CUP 2026</div></div>
+      <div class="py">2026</div>
+    </div>
+    <div class="pinfo">
+      <div class="pib hl"><div class="pibl">👤 Participante</div><div class="pibv">${participante}</div></div>
+      <div class="pib"><div class="pibl">📅 Fecha de registro</div><div class="pibv">${fechaCorta}</div></div>
+      <div class="pib"><div class="pibl">🕐 Hora exacta</div><div class="pibv">${hora}</div></div>
+    </div>
+    <div class="prules">
+      <div class="prc">💰 Entrada: $100 MXN</div>
+      <div class="prc">🥇 1er lugar = 3 pts</div>
+      <div class="prc">🥈 2do lugar = 2 pts</div>
+      <div class="prc">🥉 3er lugar = 1 pt</div>
+      <div class="prc">🏆 Máx: 72 pts</div>
+    </div>
+    <div class="pgrid">
+      ${GRUPOS.map(g=>{
+        const s=SEL[g.id]||{};
+        const e1=g.eq.find(e=>e.n===s.p1);
+        const e2=g.eq.find(e=>e.n===s.p2);
+        const e3=g.eq.find(e=>e.n===s.p3);
+        return `<div class="pgrupo">
+          <div class="pgh">⚽ Grupo ${g.id} — ${GNAMES[g.id]}</div>
+          <div class="pr rp1"><span class="prf">${e1?e1.b:''}</span><div><div class="prpos">🥇 1er Lugar</div><div class="prn">${s.p1||'—'}</div></div></div>
+          <div class="pr rp2"><span class="prf">${e2?e2.b:''}</span><div><div class="prpos">🥈 2do Lugar</div><div class="prn">${s.p2||'—'}</div></div></div>
+          <div class="pr rp3"><span class="prf">${e3?e3.b:''}</span><div><div class="prpos">🥉 3er Lugar</div><div class="prn">${s.p3||'—'}</div></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="pfoot">
+      <div class="sello">
+        <div class="st">📋 Sello Oficial de Registro — Anti-Trampa</div>
+        <div class="sf">📅 ${fechaLarga}</div>
+        <div class="sh">🕐 Registrado a las ${hora}</div>
+      </div>
+      <div class="pfsub"><strong>Rumbo al Oro Mundialista 2026 ©</strong> — Que gane el mejor estratega ⚽🏆</div>
+      <div class="pfcreator">Creado por: Francisco De Jesús Luna Benítez</div>
+      <div class="pfaviso">Comprobante oficial de quiniela. Fecha y hora garantizan autenticidad del pronóstico y previenen modificaciones posteriores.</div>
+    </div>
+  `;
+
+  try{
+    const canvas=await html2canvas(tpl,{
+      scale:2,useCORS:true,backgroundColor:'#ffffff',
+      width:794,windowWidth:794,
+    });
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const imgData=canvas.toDataURL('image/jpeg',0.95);
+    const pW=pdf.internal.pageSize.getWidth();
+    const pH=(canvas.height*pW)/canvas.width;
+    const pageH=pdf.internal.pageSize.getHeight();
+    if(pH<=pageH){
+      pdf.addImage(imgData,'JPEG',0,0,pW,pH);
+    } else {
+      // Multi-página
+      let posY=0; const ratio=canvas.width/pW;
+      while(posY<canvas.height){
+        const slH=Math.min(pageH*ratio,canvas.height-posY);
+        const sc=document.createElement('canvas');
+        sc.width=canvas.width; sc.height=slH;
+        sc.getContext('2d').drawImage(canvas,0,posY,canvas.width,slH,0,0,canvas.width,slH);
+        if(posY>0) pdf.addPage();
+        pdf.addImage(sc.toDataURL('image/jpeg',0.95),'JPEG',0,0,pW,slH/ratio);
+        posY+=slH;
+      }
+    }
+    const sn=participante.replace(/[^a-zA-Z0-9ÁÉÍÓÚáéíóúÑñ ]/g,'').replace(/ /g,'_');
+    pdf.save(`Quiniela_2026_${sn}.pdf`);
+    toast('✅ ¡PDF descargado exitosamente!');
+  } catch(err){
+    console.error(err);
+    toast('❌ Error al generar PDF. Intenta de nuevo.',true);
+  }
+  btn.disabled=false; btn.innerHTML='📄 Descargar PDF';
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+let _tt;
+function toast(msg,isErr=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='show'+(isErr?' err':'');
+  clearTimeout(_tt);
+  _tt=setTimeout(()=>t.className='',2700);
+}
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+function safe(s){return s.replace(/[^a-zA-Z0-9]/g,'_');}
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded',()=>ir('s-intro'));
+</script>
+</body>
+</html>
